@@ -22,4 +22,4 @@ https://kind.sigs.k8s.io/docs/user/quick-start#installation
 
 ### Run Cluster
 
-`skaffold dev`
+`skaffold dev --port-forward`

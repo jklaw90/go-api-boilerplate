@@ -25,7 +25,7 @@ deploy:
           helm: {}
 
 portForward:
-  - resourceType: deployment
+  - resourceType: Service
     resourceName: api
     port: 80
     localPort: 9000
