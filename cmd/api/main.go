@@ -6,7 +6,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/jklaw90/go-api-boilerplate/pkg/http/handlers"
-	"github.com/jklaw90/go-api-boilerplate/pkg/http/middelwares"
+	middlewares "github.com/jklaw90/go-api-boilerplate/pkg/http/middelwares"
 	"go.uber.org/zap"
 )
 
@@ -19,7 +19,7 @@ func main() {
 	logger.Infow("initalizing boilerplate-api")
 
 	r := mux.NewRouter()
-	r.Use(middelwares.LoggingMiddleware(logger))
+	r.Use(middlewares.LoggingMiddleware(logger))
 	r.HandleFunc("/health", handlers.HealthCheck)
 
 	srv := &http.Server{

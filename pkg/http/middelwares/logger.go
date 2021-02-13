@@ -1,4 +1,4 @@
-package middelwares
+package middlewares
 
 import (
 	"net/http"
@@ -42,7 +42,7 @@ func LoggingMiddleware(logger *zap.SugaredLogger) func(http.Handler) http.Handle
 			defer func() {
 				if err := recover(); err != nil {
 					w.WriteHeader(http.StatusInternalServerError)
-					logger.Infow(
+					logger.Errorw(
 						"panic",
 						"err", err,
 						"trace", debug.Stack(),
