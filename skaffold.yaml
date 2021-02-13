@@ -1,0 +1,40 @@
+apiVersion: skaffold/v2beta8
+kind: Config
+metadata:
+  name: boilerplate
+
+build:
+  tagPolicy:
+    gitCommit: {}
+  artifacts:
+    - image: some-registry/api
+      docker:
+        dockerfile: cmd/Dockerfile
+
+deploy:
+  helm:
+    releases:
+      - name: api
+        namespace: default
+        chartPath: ./k8s/charts/api
+        valuesFiles:
+          - ./k8s/dev/api-values.yaml
+        artifactOverrides:
+          image: some-registry/api
+        imageStrategy:
+          helm: {}
+
+portForward:
+  - resourceType: deployment
+    resourceName: api
+    port: 80
+    localPort: 9000
+
+profiles:
+  - name: dev
+    activation:
+      - kubeContext: kind-boilerplate
+
+  - name: prod
+    activation:
+      - kubeContext: kind-boilerplate
