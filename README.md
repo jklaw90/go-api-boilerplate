@@ -2,24 +2,26 @@
 
 golang boilerplate for apis in k8s
 
-# Install
+## Install
 
-### Skaffold
+#### Skaffold
 
 https://skaffold.dev/docs/install/
 
-### Helm
+#### Helm
 
 https://helm.sh/docs/intro/install/
 
-### Kind
+#### Kind
 
 https://kind.sigs.k8s.io/docs/user/quick-start#installation
 
-### Create Cluster (done once)
 
-`kind create cluster --name boilerplate`
+## Debug
 
-### Run Cluster
+Initialize cluster
+* `make cluster-init`
 
-`skaffold dev --port-forward`
+Deploy Services (Could be done through cloud code to enable easy debugging in vscode)
+* `make debug`
+

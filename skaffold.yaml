@@ -1,40 +1,54 @@
-apiVersion: skaffold/v2beta8
+apiVersion: skaffold/v2beta15
+kind: Config
+metadata:
+  name: base
+build:
+  local:
+    push: false
+  artifacts:
+    - image: base-builder
+      docker:
+        dockerfile: cmd/Dockerfile
+
+---
+apiVersion: skaffold/v2beta15
 kind: Config
 metadata:
   name: boilerplate
 
 build:
-  tagPolicy:
-    gitCommit: {}
   artifacts:
     - image: some-registry/api
       docker:
-        dockerfile: cmd/Dockerfile
+        dockerfile: cmd/api/Dockerfile
+      requires:
+        - image: base-builder
+          alias: BASE_BUILDER
+  local:
+    concurrency: 0 # 0 concurrency means run all in parallel, could probably tune this if the number of services grows
+  tagPolicy:
+    gitCommit: {}
 
 deploy:
   helm:
     releases:
       - name: api
-        namespace: default
-        chartPath: ./k8s/charts/api
-        valuesFiles:
-          - ./k8s/dev/api-values.yaml
+        chartPath: charts/api
         artifactOverrides:
-          image: some-registry/api
+          api.image: some-registry/api
         imageStrategy:
-          helm: {}
-
-portForward:
-  - resourceType: Service
-    resourceName: api
-    port: 80
-    localPort: 9000
+          helm:
+            explicitRegistry: true
 
 profiles:
-  - name: dev
+  - name: local
     activation:
-      - kubeContext: kind-boilerplate
+      - command: debug
+    deploy:
+      kubeContext: kind-boilerplate
 
-  - name: prod
-    activation:
-      - kubeContext: kind-boilerplate
+    portForward:
+      - resourceType: Service
+        resourceName: api
+        port: 80
+        localPort: 9000
