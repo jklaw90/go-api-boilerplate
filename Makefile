@@ -2,6 +2,10 @@ export PATH := $(PWD)/bin:$(PWD):$(PATH)
 export GOBIN := $(PWD)/bin
 
 
+download:
+	go mod download
+	cd tools && go mod download
+
 install-tools:
 	cd tools && go install github.com/spf13/cobra/cobra
 	cd tools && go install go.mozilla.org/sops/v3/cmd/sops

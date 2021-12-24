@@ -36,9 +36,7 @@ jobs:
             ${{ runner.os }}-go-
 
       - name: Download Deps
-        run: |
-          go mod download
-          cd tools && go mod download
+        run: make download
 
       - name: Lint
         run: make lint
