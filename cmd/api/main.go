@@ -10,15 +10,15 @@ import (
 
 func main() {
 	l, _ := zap.NewDevelopment()
-	defer l.Sync()
+	defer l.Sync() // nolint: errcheck
 	logger := l.Sugar()
 
-	logger.Infow("initalizing boilerplate-api")
+	logger.Infow("initializing boilerplate-api")
 
 	r := mux.NewRouter()
 	r.HandleFunc("/healthz", func(w http.ResponseWriter, r *http.Request) {
 		logger.Debug("request received")
-		w.Write([]byte("ok"))
+		w.Write([]byte("ok")) // nolint: errcheck
 	})
 
 	srv := &http.Server{

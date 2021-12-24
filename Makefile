@@ -2,9 +2,14 @@ export PATH := $(PWD)/bin:$(PWD):$(PATH)
 export GOBIN := $(PWD)/bin
 
 
-tools-install:
-	go install github.com/spf13/cobra/cobra
-	go install go.mozilla.org/sops/v3/cmd/sops
+install-tools:
+	cd tools && go install github.com/spf13/cobra/cobra
+	cd tools && go install go.mozilla.org/sops/v3/cmd/sops
+	cd tools && go install github.com/golangci/golangci-lint/cmd/golangci-lint
+
+lint:
+	cd tools && go install github.com/golangci/golangci-lint/cmd/golangci-lint
+	golangci-lint run --enable=misspell
 
 cluster-init:
 	@kind create cluster --name boilerplate --wait 40s
