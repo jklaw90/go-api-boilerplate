@@ -12,7 +12,7 @@ install-tools:
 	cd tools && go install github.com/golangci/golangci-lint/cmd/golangci-lint
 
 lint:
-	cd tools && go install github.com/golangci/golangci-lint/cmd/golangci-lint
+	@cd tools && go install github.com/golangci/golangci-lint/cmd/golangci-lint
 	golangci-lint run --enable=misspell
 
 cluster-init:
